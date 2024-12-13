@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Flask App</title>
+    <script>
+        async function fetchHealthStatus() {
+            try {
+                const response = await fetch('/api/health');
+                const data = await response.json();
+                document.getElementById('status').textContent = `Backend Status: ${data.status}`;
+            } catch (error) {
+                document.getElementById('status').textContent = 'Backend Status: Unreachable';
+            }
+        }
+    </script>
+</head>
+<body onload="fetchHealthStatus()">
+    <h1>Welcome to the Flask App</h1>
+    <p id="status">Fetching backend status...</p>
+</body>
+</html>
