@@ -25,7 +25,7 @@ def test_healthcheck(client):
 def test_post_data(client):
     response = client.post('/data', json={'key': 'value'})
     print(response.json)  # Debugging output to check the response JSON
-    assert response.status_code == 404  # This will likely return 404 unless you implement a '/data' route
+    assert response.status_code == 200  # This should return 200 if '/data' is implemented
     assert response.json == {'received': {'key': 'value'}}  # Ensure the response matches the expected
 
 def test_flask_headers(client):
