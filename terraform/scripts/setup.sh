@@ -1,22 +1,52 @@
 #!/bin/bash
-# Update packages and install Flask dependencies
-sudo apt update -y
-sudo apt install -y python3 python3-pip
+
+# Update the system
+yum update -y
+
+# Install dependencies
+yum install -y git python3 aws-cli
+
+# Install CloudWatch Agent
+yum install -y amazon-cloudwatch-agent
+
 # Install Flask
-echo "Installing Flask..."
 pip3 install flask
 
-# Create /app directory if it doesn't exist (to ensure proper permissions)
-echo "Creating /app directory..."
-sudo mkdir -p /app
-sudo chown -R $USER:$USER /app
+# Clone the GitHub repository containing the Flask app
+cd /home/ec2-user
+git clone https://github.com/yourusername/your-repository.git flask_app
 
-aws s3 cp s3://navk-flask-frontend-bucket/index.html /app/index.html
+# Copy index.html from S3 (replace S3 bucket path with correct one)
+aws s3 cp s3://your-s3-bucket-name/index.html /home/ec2-user/flask_app/app/static/index.html
 
-# Clone the Flask app repository from GitHub (or download it)
-echo "Cloning the repository..."
-git clone https://github.com/navkaurneet/CICD-FinalProject-Nav.git /app/backend
+# Change ownership for the cloned files
+chown -R ec2-user:ec2-user /home/ec2-user/flask_app
 
+# Configure CloudWatch Agent to collect logs
+cat <<EOT > /home/ec2-user/cloudwatch-config.json
+{
+    "logs": {
+        "logs_collected": {
+            "files": {
+                "collect_list": [
+                    {
+                        "file_path": "/home/ec2-user/flask_app/app.log",
+                        "log_group_name": "FlaskAppLogs",
+                        "log_stream_name": "{instance_id}",
+                        "timezone": "UTC"
+                    }
+                ]
+            }
+        }
+    }
+}
+EOT
+
+# Start the CloudWatch Agent with the configuration
+/opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a stop
+/opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a start -c file:/home/ec2-user/cloudwatch-config.json
 
 # Start the Flask app
-nohup python3 /app/backend/app.py > /app/backend/logs.txt 2>&1 &
+cd /home/ec2-user/flask_app
+nohup python3 app.py &
+
