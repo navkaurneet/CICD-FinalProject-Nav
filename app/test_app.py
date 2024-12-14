@@ -16,9 +16,10 @@ def test_non_existent_page(client):
     assert response.status_code == 404  # Ensure it returns 404 for non-existent pages
 
 def test_healthcheck(client):
-    response = client.get('/api/health')  # Update to match your actual route
+    response = client.get('/api/health')
     assert response.status_code == 200
-    assert b'"status": "healthy"' in response.data.strip()  # Strip to remove any extra newlines or spaces
+    # Directly compare the stripped response data with the expected result
+    assert response.data.strip() == b'{"status":"healthy"}'
 
 def test_post_data(client):
     # Assuming the '/data' route doesn't exist, expecting a 404 status code
