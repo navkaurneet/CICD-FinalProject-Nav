@@ -1,14 +1,16 @@
 #!/bin/bash
-yum update -y
-yum install python3 -y
+# Update packages and install Flask dependencies
+sudo apt update -y
+sudo apt install -y python3 python3-pip
 pip3 install flask
-cat <<EOF > /home/ec2-user/app.py
-from flask import Flask
-app = Flask(__name__)
-@app.route("/")
-def hello():
-    return "Hello from Flask on EC2!"
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
-EOF
-python3 /home/ec2-user/app.py &
+
+# Download the app
+mkdir /app
+aws s3 cp s3://my-flask-frontend-bucket/index.html /app/index.html
+
+# Clone the Flask app repository (or download it)
+# Assuming the Flask app code is in a GitHub repo
+git clone https://github.com/navkaurneet/CICD-FinalProject-Nav.git /app/backend
+
+# Start the Flask app
+nohup python3 /app/backend/app.py > /app/backend/logs.txt 2>&1 &
