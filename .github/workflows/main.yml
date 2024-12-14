@@ -32,10 +32,15 @@ jobs:
         with:
           python-version: '3.x'
 
-      # Step 2: Install dependencies for the Flask app
+        # Step 2: Install dependencies for the Flask app
       - name: Install dependencies
         run: |
+          pip install --upgrade pip
           pip install -r app/requirements.txt
+
+      - name: Verify pytest installation
+        run: |
+          pip show pytest
 
       # Step 3: Validate the Flask app
       - name: Check Flask App Structure
