@@ -67,7 +67,7 @@ resource "aws_instance" "backend" {
   }
 }
 
-resource "aws_security_group" "allow_http" {
+resource "aws_security_group" "allow_http_ssh" {
   name        = "allow_http"
   description = "Allow HTTP and SSH"
 
