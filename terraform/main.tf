@@ -68,7 +68,7 @@ resource "aws_instance" "backend" {
 }
 
 resource "aws_security_group" "allow_http" {
-  name        = "allow_http_ssh_fp1"
+  name        = "allow_http_terraform_${random_id.sg_id.hex}"
   description = "Allow HTTP and SSH"
 
   ingress {
@@ -91,4 +91,7 @@ resource "aws_security_group" "allow_http" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
+}
+resource "random_id" "sg_id" {
+  byte_length = 4
 }
