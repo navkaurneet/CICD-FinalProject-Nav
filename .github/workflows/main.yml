@@ -89,7 +89,13 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      # Step 1: Apply Terraform to deploy infrastructure
+
+      # Step 1: Initialize Terraform
+      - name: Terraform Init
+        working-directory: terraform
+        run: terraform init
+        
+      # Step 2: Apply Terraform to deploy infrastructure
       - name: Terraform Apply
         working-directory: terraform
         run: terraform apply -auto-approve
@@ -97,7 +103,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-      # Step 2: Sync index.html to S3
+      # Step 3: Sync index.html to S3
       - name: Sync Frontend to S3
         run: |
           aws s3 cp app/static/index.html s3://my-flask-frontend-bucket/index.html \
