@@ -44,3 +44,29 @@ Frontend: An S3 bucket to serve the static index.html.
 Backend: An EC2 instance to run the Flask app.
 API Gateway: To expose the backend API /api/health.
 Networking: Security Groups and IAM roles for secure access.
+
+## Prerequisites
+- AWS account with necessary permissions.
+- GitHub Secrets for AWS credentials:
+  - `AWS_ACCESS_KEY_ID`
+  - `AWS_SECRET_ACCESS_KEY`
+- Python 3.x installed locally.
+
+## How to Run
+1. Clone the repository:
+
+   git clone https://github.com/your-repo/flask-app.git
+   cd flask-app
+Push changes to dev or main branch to trigger the CI/CD pipeline.
+
+Monitor the GitHub Actions pipeline to ensure all steps pass.
+
+## Test Cases
+Test cases are located in app/test_app.py and can be executed locally using:
+
+    pytest app/test_app.py
+
+## Deployment
+The pipeline deploys:
+    -Frontend to an S3 bucket.
+    -Backend to an EC2 instance running the Flask app.
