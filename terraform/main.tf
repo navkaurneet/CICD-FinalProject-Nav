@@ -54,7 +54,7 @@ resource "aws_s3_object" "frontend_index" {
 }
 
 
-resource "aws_instance" "backend" {
+/*resource "aws_instance" "backend" {
   ami           = "ami-0c02fb55956c7d316" # Amazon Linux 2
   instance_type = "t2.micro"
   key_name      = var.key_pair_name
@@ -66,6 +66,37 @@ resource "aws_instance" "backend" {
     Name = "Flask-Backend"
   }
 }
+*/
+
+resource "aws_instance" "backend" {
+  ami           = "ami-0c02fb55956c7d316" # Amazon Linux 2
+  instance_type = "t2.micro"
+  key_name      = var.key_pair_name
+  security_groups = [aws_security_group.allow_http.name]
+
+  # Setup EC2 user-data script for running the Flask app
+  user_data = <<-EOF
+              #!/bin/bash
+              yum update -y
+              yum install -y git python3
+              pip3 install flask
+              
+              cd /home/ec2-user
+              git clone https://github.com/navkaurneet/CICD-FinalProject-Nav.git flask_app
+
+              aws s3 cp s3://your-s3-bucket-name/index.html /home/ec2-user/flask_app/app/static/index.html
+
+              chown -R ec2-user:ec2-user /home/ec2-user/flask_app
+
+              cd /home/ec2-user/flask_app
+              nohup python3 app.py &
+            EOF
+
+  tags = {
+    Name = "Flask-Backend"
+  }
+}
+
 
 resource "aws_security_group" "allow_http" {
   name        = "allow_http_terraform_${random_id.sg_id.hex}"
