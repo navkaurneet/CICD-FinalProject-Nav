@@ -14,7 +14,7 @@ pip3 install flask
 
 # Clone the GitHub repository containing the Flask app
 cd /home/ec2-user
-git clone https://github.com/yourusername/your-repository.git flask_app
+git clone https://github.com/navkaurneet/CICD-FinalProject-Nav.git flask_app
 
 # Copy index.html from S3 (replace S3 bucket path with correct one)
 aws s3 cp s3://your-s3-bucket-name/index.html /home/ec2-user/flask_app/app/static/index.html
