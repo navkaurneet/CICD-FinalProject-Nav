@@ -46,6 +46,13 @@ resource "aws_s3_bucket_website_configuration" "frontend_website" {
   source = "C:/Users/user1/Documents/Navneet/CDevOps/Sem2/CI&CD/FinalProject-n1/app/static/index.html" 
 }
 */
+resource "aws_s3_bucket_object" "frontend_index" {
+  bucket        = aws_s3_bucket.frontend_bucket.id
+  key           = "index.html"
+  source        = "../app/static/index.html"
+  content_type  = "text/html"
+}
+
 
 resource "aws_instance" "backend" {
   ami           = "ami-0c02fb55956c7d316" # Amazon Linux 2
