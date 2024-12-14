@@ -110,6 +110,9 @@ jobs:
 
       # Step 3: Sync index.html to S3
       - name: Sync Frontend to S3
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
           aws s3 cp app/static/index.html s3://my-flask-frontend-bucket/index.html \
           --region us-east-1
