@@ -47,7 +47,7 @@ resource "aws_s3_bucket_website_configuration" "frontend_website" {
 }
 */
 resource "aws_s3_bucket_object" "frontend_index" {
-  bucket        = aws_s3_bucket.frontend_bucket.id
+  bucket        = aws_s3_bucket.frontend.id
   key           = "index.html"
   source        = "../app/static/index.html"
   content_type  = "text/html"
