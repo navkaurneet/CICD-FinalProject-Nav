@@ -46,7 +46,7 @@ resource "aws_s3_bucket_website_configuration" "frontend_website" {
   source = "C:/Users/user1/Documents/Navneet/CDevOps/Sem2/CI&CD/FinalProject-n1/app/static/index.html" 
 }
 */
-resource "aws_s3_bucket_object" "frontend_index" {
+resource "aws_s3_object" "frontend_index" {
   bucket        = aws_s3_bucket.frontend.id
   key           = "index.html"
   source        = "../app/static/index.html"
