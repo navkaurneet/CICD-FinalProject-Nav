@@ -28,7 +28,6 @@ jobs:
 
       # Step 2: Install dependencies for the Flask app
       - name: Install dependencies
-        working-directory: app
         run: |
           pip install -r requirements.txt
 
