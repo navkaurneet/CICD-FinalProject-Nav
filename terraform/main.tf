@@ -68,7 +68,7 @@ resource "aws_instance" "backend" {
 }
 
 resource "aws_security_group" "allow_http" {
-  name        = "allow_http_ssh_fp"
+  name        = "allow_http_ssh_fp1"
   description = "Allow HTTP and SSH"
 
   ingress {
