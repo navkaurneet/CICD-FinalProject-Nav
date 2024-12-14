@@ -65,6 +65,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
       # Step 1: Run unit or integration tests for the Flask app
       - name: Run tests
         working-directory: app
@@ -76,6 +78,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: test
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
       # Step 1: Apply Terraform to deploy infrastructure
       - name: Terraform Apply
         working-directory: terraform
