@@ -72,11 +72,15 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: |
+          pip install -r app/requirements.txt
+          
       # Step 1: Run unit or integration tests for the Flask app
       - name: Run tests
-        working-directory: app
         run: |
-          pytest test_app.py
+          pytest app/test_app.py
 
   deploy:
     name: Deploy Stage
