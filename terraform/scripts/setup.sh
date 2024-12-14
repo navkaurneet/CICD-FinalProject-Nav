@@ -6,7 +6,7 @@ pip3 install flask
 
 # Download the app
 mkdir /app
-aws s3 cp s3://my-flask-frontend-bucket/index.html /app/index.html
+aws s3 cp s3://navk-flask-frontend-bucket/index.html /app/index.html
 
 # Clone the Flask app repository (or download it)
 # Assuming the Flask app code is in a GitHub repo
