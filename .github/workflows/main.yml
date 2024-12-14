@@ -1,0 +1,57 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # Step 1: Checkout the code from the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Python environment
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      # Step 3: Install dependencies for the Flask app
+      - name: Install dependencies
+        working-directory: app
+        run: |
+          pip install -r requirements.txt
+
+      # Step 4: Run tests for the Flask app
+      - name: Run tests
+        working-directory: app
+        run: |
+          pytest --maxfail=5 --disable-warnings -q
+
+      # Step 5: Set up Terraform environment
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.5.6
+
+      # Step 6: Initialize Terraform
+      - name: Terraform Init
+        working-directory: terraform
+        run: terraform init
+
+      # Step 7: Validate Terraform configuration files
+      - name: Terraform Validate
+        working-directory: terraform
+        run: terraform validate
+
+      # Step 8: Apply Terraform to deploy infrastructure
+      - name: Terraform Apply
+        working-directory: terraform
+        run: terraform apply -auto-approve
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
