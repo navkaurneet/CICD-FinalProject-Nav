@@ -106,7 +106,7 @@ resource "aws_instance" "backend" {
 }
 
 resource "aws_iam_instance_profile" "ec2_instance_profile" {
-  name = "EC2CloudWatchInstanceProfileCICD"
+  name = "EC2CloudWatchInstanceProfileCICD1"
   role = aws_iam_role.cloudwatch_role.name
 }
 
