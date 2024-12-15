@@ -54,7 +54,7 @@ resource "aws_s3_object" "frontend_index" {
 }
 
 resource "aws_iam_role" "cloudwatch_role" {
-  name = "EC2CloudWatchRoleCICD"
+  name = "EC2CloudWatchRoleCICD1"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -71,7 +71,7 @@ resource "aws_iam_role" "cloudwatch_role" {
 }
 
 resource "aws_iam_role_policy" "cloudwatch_policy" {
-  name = "CloudWatchPolicyCICD"
+  name = "CloudWatchPolicyCICD1"
   role = aws_iam_role.cloudwatch_role.id
 
   policy = jsonencode({
