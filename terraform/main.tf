@@ -153,3 +153,4 @@ resource "aws_security_group" "allow_http" {
 resource "random_id" "sg_id" {
   byte_length = 4
 }
+
