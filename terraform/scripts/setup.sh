@@ -49,4 +49,3 @@ EOT
 # Start the Flask app
 cd /home/ec2-user/flask_app
 nohup python3 app.py &
-
